@@ -56,13 +56,37 @@ int main()
     
     std::vector<int> secret_code = createSecret();
     std::vector<int> user_guess = {};
-    std::vector<std::string> hint = {};   
-
+    std::vector<std::string> hint = {};  
     int secret_code_length = 4;
-    int num_guesses = 0;
+
+
 
     display(secret_code);
-    std::cout << "Welcome to Number Wordle!\nGuess the 4 digit number one digit at a time!\n";
+    std::cout << "Welcome to Number Wordle!\nGuess a large number one digit at a time!\n";
+
+    std::cout << "What difficulty would you like your game to be?\n(easy = 4 digits, medium = 6, hard = 8, masochist = 10): ";
+
+    if (std::cin == "easy")
+    {
+        secret_code_length = 4;
+        std::cout << "How many guesses would you like? (Recommended 10): ";
+    } else if
+    {
+        secret_code_length = 6;
+        std::cout << "How many guesses would you like? (Recommended 20): ";
+    } else if
+    {
+        secret_code_length = 8;
+        std::cout << "How many guesses would you like? (Recommended 30): ";
+    } else if 
+    {
+        secret_code_length = 10;
+        std::cout << "How many guesses would you like? (Recommended 40): ";
+    }
+
+    
+
+    int num_guesses = 0;
     
     while (!winGame(hint))   
     {
