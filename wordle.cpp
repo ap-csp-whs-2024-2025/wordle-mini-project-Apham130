@@ -11,9 +11,22 @@
 #include <string>    // std::string, std::getline
 #include <vector>    // std::vector
 
-std::vector<int> createSecret() 
+std::vector<int> createSecret(int diff) 
 {
-    return {rand() % 10, rand() % 10, rand() % 10, rand() % 10};   
+    if (diff == 0)
+    {
+        return {rand() % 10, rand() % 10, rand() % 10, rand() % 10};   
+    } else if (diff == 1)
+    {
+        return {rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10};   
+    } else if (diff == 2)
+    {
+        return {rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10};
+    } else if (diff == 3)
+    {
+        return {rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10, rand() % 10 , rand() % 10, rand() % 10};
+    }
+    return {404};
 }
 
 std::vector<std::string> getHint(std::vector<int> secret, std::vector<int> guess) 
@@ -33,7 +46,7 @@ std::vector<std::string> getHint(std::vector<int> secret, std::vector<int> guess
     return hint;  
 }
 
-bool winGame(std::vector<std::string> guess) 
+bool endGame(std::vector<std::string> guess, int hintLength, int preNumG, int numG) 
 {
     int numCorrect = 0;
     for (int counter = 0; counter < length(guess); counter = counter + 1)
@@ -43,7 +56,11 @@ bool winGame(std::vector<std::string> guess)
             numCorrect = numCorrect + 1;
         }
     } 
-    if (numCorrect == 4)
+    if (numCorrect == hintLength)
+    {
+        return true;
+    }
+    if (numG == preNumG)
     {
         return true;
     }
@@ -54,52 +71,74 @@ int main()
 {
     srand(time(0));
     
-    std::vector<int> secret_code = createSecret();
-    std::vector<int> user_guess = {};
     std::vector<std::string> hint = {};  
     int secret_code_length = 4;
 
-
-
-    display(secret_code);
+    
     std::cout << "Welcome to Number Wordle!\nGuess a large number one digit at a time!\n";
 
-    std::cout << "What difficulty would you like your game to be?\n(easy = 4 digits, medium = 6, hard = 8, masochist = 10): ";
-
-    if (std::cin == "easy")
+    std::cout << "\nWhat difficulty would you like your game to be?\n(easy = 0, medium = 1, hard = 2, masochist = 3): ";
+    
+    int difficulty;
+    std::cin >> difficulty;
+    
+    if (difficulty == 0)
     {
         secret_code_length = 4;
-        std::cout << "How many guesses would you like? (Recommended 10): ";
-    } else if
+        std::cout << "\nHow many guesses would you like? (Recommended 10): ";
+    } else if (difficulty == 1)
     {
         secret_code_length = 6;
-        std::cout << "How many guesses would you like? (Recommended 20): ";
-    } else if
+        std::cout << "\nHow many guesses would you like? (Recommended 20): ";
+    } else if (difficulty == 2)
     {
         secret_code_length = 8;
-        std::cout << "How many guesses would you like? (Recommended 30): ";
-    } else if 
+        std::cout << "\nHow many guesses would you like? (Recommended 30): ";
+    } else if (difficulty == 3)
     {
         secret_code_length = 10;
-        std::cout << "How many guesses would you like? (Recommended 40): ";
+        std::cout << "\nHow many guesses would you like? (Recommended 40): ";
     }
-
     
+    int num_guesses_set;
+    std::cin >> num_guesses_set;
+    std::vector<int> secret_code = createSecret(difficulty);
+    display(secret_code);
+    int num_guesses;
 
-    int num_guesses = 0;
-    
-    while (!winGame(hint))   
+    int user_guess
+    std::vector<int> user_guess_list = {};
+    user_guess_list.assign(num_guesses_set, 0);
+
+    std::cout << "\nPlease enter numbers in a " << secret_code_length << " digit number form.";
+    while (!endGame(hint, secret_code_length, num_guesses_set, num_guesses))   
     {
         num_guesses = num_guesses + 1;
         std::cout << "\nGuess #" << num_guesses << ": ";
         hint = {};
-        user_guess = {};
-        for (int counter = 0; counter < secret_code_length; counter = counter + 1)
-        {
-            int input;
-            std::cin >> input;
-            user_guess.push_back(input);   
-        }
+        
+        // new input method
+
+        std::
+        use mod function 
+
+
+
+
+
+
+
+
+        
+        // old input method
+        
+        // for (int counter = 0; counter < secret_code_length; counter = counter + 1)  
+        // {
+        //     int input;
+        //     std::cin >> input;
+        //     user_guess.push_back(input);   
+        // }
+
         hint = getHint(secret_code, user_guess);
         display(hint);
         // display(secret_code);
