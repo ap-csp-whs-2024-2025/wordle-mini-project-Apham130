@@ -32,45 +32,89 @@ std::vector<int> createSecret(int diff)
 std::vector<std::string> getHint(std::vector<int> secret, std::vector<int> guess, int diff) // code, guess, length of code
 {   
     std::vector<std::string> hint = {};
-    std::vector<int> tempSecret = secret; 
-    std::vector<int> tempGuess = guess;
     hint.assign(diff, "X");
-    for (int counter = 0; counter < diff; counter = counter + 1)
+    
+        std::vector<std::string> hint(diff, "X");  // Initialize hint with "X"
+    std::vector<bool> used(secret.size(), false);  // To track already matched positions in secret
+
+    // First loop: Check for exact matches ("O")
+    for (int counter = 0; counter < diff; ++counter)
     {
         if (secret[counter] == guess[counter])
         {
-            hint[counter] = "O";
-            remove(tempSecret, counter);
-            tempGuess[counter] = 999;
+            hint[counter] = "O";  // Exact match
+            used[counter] = true;  // Mark the secret element as used
         }
     }
-    // tempSecret gives a number
-    // if tempGuess has the number from tempSecret, replace index of hint with + and move on
-    for (int index = 0; index < length(tempSecret); index = index + 1)
+
+    // Second loop: Check for partial matches ("+")
+    for (int counter = 0; counter < diff; ++counter)
     {
-        int currEx = tempSecret[index];
-        for (int counter = 0; counter < diff; counter = counter + 1)
-        { 
-            if (currEx == tempGuess[counter])
+        if (hint[counter] == "O")  // Skip positions that already got "O"
+            continue;
+
+        for (int index = 0; index < diff; ++index)
+        {
+            // Find the partial match and ensure we haven't used this secret element yet
+            if (!used[index] && secret[index] == guess[counter])
             {
-                hint[counter] = "+";
-                tempGuess[counter] = 999;
-                counter = 999;
+                hint[counter] = "+";  // Partial match
+                used[index] = true;  // Mark the secret element as used
+                break;  // No need to check further, move to next guess
             }
         }
     }
-    display(hint);
-    // std::vector<std::string> hint = {};
+
+
+
+
+
+
+
+
+
+    // extension method that doesnt work
+
+    // std::vector<int> tempSecret = secret; 
+    // std::vector<int> tempGuess = guess;
     // for (int counter = 0; counter < diff; counter = counter + 1)
     // {
     //     if (secret[counter] == guess[counter])
     //     {
-    //         hint.push_back("O");
-    //     } else
-    //     {
-    //         hint.push_back("X");
-    //     } 
+    //         hint[counter] = "O";
+    //         remove(tempSecret, counter);
+    //         tempGuess[counter] = 999;
+    //     }
     // }
+    // // tempSecret gives a number
+    // // if tempGuess has the number from tempSecret, replace index of hint with + and move on
+    // for (int index = 0; index < length(tempSecret); index = index + 1)
+    // {
+    //     int currEx = tempSecret[index];
+    //     for (int counter = 0; counter < diff; counter = counter + 1)
+    //     { 
+    //         if (currEx == tempGuess[counter])
+    //         {
+    //             hint[counter] = "+";
+    //             tempGuess[counter] = 999;
+    //             counter = 999;
+    //         }
+    //     }
+    // }
+    // display(hint);
+
+    // old method
+    // // std::vector<std::string> hint = {};
+    // // for (int counter = 0; counter < diff; counter = counter + 1)
+    // // {
+    // //     if (secret[counter] == guess[counter])
+    // //     {
+    // //         hint.push_back("O");
+    // //     } else
+    // //     {
+    // //         hint.push_back("X");
+    // //     } 
+    // // }
 
     return hint;  
 }
