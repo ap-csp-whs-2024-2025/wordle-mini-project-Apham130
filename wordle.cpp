@@ -33,34 +33,28 @@ std::vector<std::string> getHint(std::vector<int> secret, std::vector<int> guess
 {   
     std::vector<std::string> hint = {};
     hint.assign(diff, "X");
-    
-        std::vector<std::string> hint(diff, "X");  // Initialize hint with "X"
-    std::vector<bool> used(secret.size(), false);  // To track already matched positions in secret
+    std::vector<bool> used(secret.size(), false);  
 
-    // First loop: Check for exact matches ("O")
-    for (int counter = 0; counter < diff; ++counter)
+    for (int counter = 0; counter < diff; counter = counter + 1)
     {
         if (secret[counter] == guess[counter])
         {
-            hint[counter] = "O";  // Exact match
-            used[counter] = true;  // Mark the secret element as used
+            hint[counter] = "O";
+            used[counter] = true; 
         }
     }
 
-    // Second loop: Check for partial matches ("+")
-    for (int counter = 0; counter < diff; ++counter)
+    for (int counter = 0; counter < diff; counter = counter + 1)
     {
-        if (hint[counter] == "O")  // Skip positions that already got "O"
+        if (hint[counter] == "O")
             continue;
-
-        for (int index = 0; index < diff; ++index)
+        for (int index = 0; index < diff; index = index + 1)
         {
-            // Find the partial match and ensure we haven't used this secret element yet
-            if (!used[index] && secret[index] == guess[counter])
+            if (!used[index] && (secret[index] == guess[counter]))
             {
-                hint[counter] = "+";  // Partial match
-                used[index] = true;  // Mark the secret element as used
-                break;  // No need to check further, move to next guess
+                hint[counter] = "+";  
+                used[index] = true;  
+                break; 
             }
         }
     }
