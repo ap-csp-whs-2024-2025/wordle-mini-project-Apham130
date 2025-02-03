@@ -29,19 +29,86 @@ std::vector<int> createSecret(int diff)
     return {404};
 }
 
-std::vector<std::string> getHint(std::vector<int> secret, std::vector<int> guess, int diff) 
+std::vector<std::string> getHint(std::vector<int> secret, std::vector<int> guess, int diff) // code, guess, length of code
 {   
     std::vector<std::string> hint = {};
+    hint.assign(diff, "X");
+    std::vector<bool> used(secret.size(), false);  
+
     for (int counter = 0; counter < diff; counter = counter + 1)
     {
         if (secret[counter] == guess[counter])
         {
-            hint.push_back("O");
-        } else
-        {
-            hint.push_back("X");
-        } 
+            hint[counter] = "O";
+            used[counter] = true; 
+        }
     }
+
+    for (int counter = 0; counter < diff; counter = counter + 1)
+    {
+        if (hint[counter] == "O")
+            continue;
+        for (int index = 0; index < diff; index = index + 1)
+        {
+            if (!used[index] && (secret[index] == guess[counter]))
+            {
+                hint[counter] = "+";  
+                used[index] = true;  
+                break; 
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    // extension method that doesnt work
+
+    // std::vector<int> tempSecret = secret; 
+    // std::vector<int> tempGuess = guess;
+    // for (int counter = 0; counter < diff; counter = counter + 1)
+    // {
+    //     if (secret[counter] == guess[counter])
+    //     {
+    //         hint[counter] = "O";
+    //         remove(tempSecret, counter);
+    //         tempGuess[counter] = 999;
+    //     }
+    // }
+    // // tempSecret gives a number
+    // // if tempGuess has the number from tempSecret, replace index of hint with + and move on
+    // for (int index = 0; index < length(tempSecret); index = index + 1)
+    // {
+    //     int currEx = tempSecret[index];
+    //     for (int counter = 0; counter < diff; counter = counter + 1)
+    //     { 
+    //         if (currEx == tempGuess[counter])
+    //         {
+    //             hint[counter] = "+";
+    //             tempGuess[counter] = 999;
+    //             counter = 999;
+    //         }
+    //     }
+    // }
+    // display(hint);
+
+    // old method
+    // // std::vector<std::string> hint = {};
+    // // for (int counter = 0; counter < diff; counter = counter + 1)
+    // // {
+    // //     if (secret[counter] == guess[counter])
+    // //     {
+    // //         hint.push_back("O");
+    // //     } else
+    // //     {
+    // //         hint.push_back("X");
+    // //     } 
+    // // }
 
     return hint;  
 }
@@ -69,6 +136,7 @@ bool endGame(std::vector<std::string> guess, int codeSize, int preNumG, int numG
 
 bool wonGame (std::vector<std::string> guess, int size)
 {
+    
     int numCorrect = 0;
     for (int counter = 0; counter < length(guess); counter = counter + 1)
     {
